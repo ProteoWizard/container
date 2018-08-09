@@ -7,4 +7,4 @@ before_install:
   - docker pull chambm/pwiz-skyline-i-agree-to-the-vendor-licenses
 
 script:
-  - docker run --rm -it chambm/pwiz-skyline-i-agree-to-the-vendor-licenses wine TestRunner test=Test.dll,TestA.dll language=en loop=1 runsmallmoleculeversions=1
+  - docker run --rm -it -e WINEDEBUG=-all chambm/pwiz-skyline-i-agree-to-the-vendor-licenses wine TestRunner test=Test.dll,TestA.dll language=en loop=1 runsmallmoleculeversions=1
