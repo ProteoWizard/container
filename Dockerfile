@@ -22,6 +22,19 @@ LABEL tags="Metabolomics,Proteomics,MassSpectrometry"
 ENV WINEDEBUG -all,err+all
 ENV WINEPATH "C:\pwiz;C:\pwiz\skyline"
 
+# archivemount lets us read a tar'd directory (e.g. Agilent/Bruker .d, Waters .raw) without extracting it;
+# this is useful for workflow management systems that deal with files as datasets better than they do with directories (e.g. Galaxy)
+RUN apt-get update && \
+    apt-get -y install archivemount && \
+    apt-get -y clean && \
+    rm -rf \
+      /var/lib/apt/lists/* \
+      /usr/share/doc \
+      /usr/share/doc-base \
+      /usr/share/man \
+      /usr/share/locale \
+      /usr/share/zoneinfo
+    
 # Set up working directory and permissions to let user xclient save data
 RUN mkdir /data
 WORKDIR /data
