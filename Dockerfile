@@ -38,6 +38,11 @@ RUN apt-get update && \
       /usr/share/man \
       /usr/share/locale \
       /usr/share/zoneinfo
+
+# create UIDs that Galaxy uses in default configs to launch docker containers; the UID must exist for sudo to work
+RUN groupadd -r galaxy -g 1450 && \
+    useradd -u 1450 -r -g galaxy -d /home/galaxy -c "Galaxy user" galaxy && \
+    useradd -u 1000 -r -g galaxy -d /home/galaxy -c "Galaxy docker user" galaxy_docker
     
 # Set up working directory and permissions to let user xclient save data
 RUN mkdir /data
