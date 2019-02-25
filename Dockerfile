@@ -43,7 +43,8 @@ RUN apt-get update && \
 RUN groupadd -r galaxy -g 1450 && \
     useradd -u 1450 -r -g galaxy -d /home/galaxy -c "Galaxy user" galaxy && \
     useradd -u 1000 -r -g galaxy -d /home/galaxy -c "Galaxy docker user" galaxy_docker && \
-    useradd -u 2000 -r -g galaxy -d /home/galaxy -c "Galaxy Travis user" galaxy_travis
+    useradd -u 2000 -r -g galaxy -d /home/galaxy -c "Galaxy Travis user" galaxy_travis && \
+    useradd -u 999 -r -g galaxy -d /home/galaxy -c "usegalaxy.eu user" galaxy_eu
     
 # Set up working directory and permissions to let user xclient save data
 RUN mkdir /data
