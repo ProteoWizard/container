@@ -22,11 +22,15 @@ LABEL tags="Metabolomics,Proteomics,MassSpectrometry"
 ENV WINEDEBUG -all,err+all
 ENV WINEPATH "C:\pwiz;C:\pwiz\skyline"
 
-# archivemount lets us read a tar'd directory (e.g. Agilent/Bruker .d, Waters .raw) without extracting it;
-# this is useful for workflow management systems that deal with files as datasets better than they do with directories (e.g. Galaxy)
+# sudo needed to run wine when container is run as a non-default user (e.g. -u 1234)
+# wine*_anyuser scripts are convenience scripts that work like wine/wine64 no matter what user calls them
 RUN apt-get update && \
-    apt-get -y install archivemount && \
+    apt-get -y install sudo && \
     apt-get -y clean && \
+    echo "ALL     ALL=NOPASSWD:  ALL" >> /etc/sudoers && \
+    echo '#!/bin/sh\nsudo -E -u root wine64 "$@"' > /usr/bin/wine64_anyuser && \
+    echo '#!/bin/sh\nsudo -E -u root wine "$@"' > /usr/bin/wine_anyuser && \
+    chmod ugo+rx /usr/bin/wine*anyuser && \
     rm -rf \
       /var/lib/apt/lists/* \
       /usr/share/doc \
@@ -34,12 +38,19 @@ RUN apt-get update && \
       /usr/share/man \
       /usr/share/locale \
       /usr/share/zoneinfo
+
+# create UIDs that Galaxy uses in default configs to launch docker containers; the UID must exist for sudo to work
+RUN groupadd -r galaxy -g 1450 && \
+    useradd -u 1450 -r -g galaxy -d /home/galaxy -c "Galaxy user" galaxy && \
+    useradd -u 1000 -r -g galaxy -d /home/galaxy -c "Galaxy docker user" galaxy_docker && \
+    useradd -u 2000 -r -g galaxy -d /home/galaxy -c "Galaxy Travis user" galaxy_travis && \
+    useradd -u 999 -r -g galaxy -d /home/galaxy -c "usegalaxy.eu user" galaxy_eu
     
 # Set up working directory and permissions to let user xclient save data
 RUN mkdir /data
 WORKDIR /data
 
-CMD ["wine64", "msconvert" ]
+CMD ["wine64_anyuser", "msconvert" ]
 
 ## If you need a proxy during build, don't put it into the Dockerfile itself:
 ## docker build --build-arg http_proxy=http://proxy.example.com:3128/  -t repo/image:version .
