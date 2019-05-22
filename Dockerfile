@@ -6,7 +6,7 @@ RUN mkdir -p /wineprefix64/drive_c/pwiz/skyline
 ADD pwiz-bin-windows-*.tar.bz2 /wineprefix64/drive_c/pwiz
 ADD SkylineTester.zip /
 RUN unzip SkylineTester.zip && mv /SkylineTester\ Files/* /wineprefix64/drive_c/pwiz/skyline && rm -fr /wineprefix64/drive_c/pwiz/skyline/TestZipFiles
-
+#test
 
 FROM chambm/wine-dotnet:4.7-x64
 COPY --from=0 /wineprefix64/drive_c/pwiz /wineprefix64/drive_c/pwiz
