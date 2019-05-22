@@ -1,5 +1,13 @@
 FROM ubuntu:16.04
 
+LABEL description="Wine with .NET"
+LABEL website=https://github.com/ProteoWizard/container/dotnet
+LABEL documentation=https://github.com/ProteoWizard/container/dotnet
+LABEL license=https://github.com/ProteoWizard/container/dotnet
+LABEL tags="Wine,.NET"
+
+ENV CONTAINER_GITHUB=https://github.com/ProteoWizard/container/dotnet
+
 # Prevents annoying debconf errors during builds
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -58,14 +66,8 @@ RUN mkdir -p /wineprefix64/
 ENV WINEPREFIX /wineprefix64
 WORKDIR /wineprefix64
 
-# Install dependencies
+# Install Windows dependencies
 #ADD winetricks_cache /root/.cache/winetricks
 RUN winetricks -q dotnet472 && wineserver -w && winetricks -q win7 && xvfb-run winetricks -q vcrun2008 vcrun2017 corefonts && wineserver -w && rm -fr /root/.cache/winetricks
 
-ENV CONTAINER_GITHUB=https://github.com/ProteoWizard/wine-dotnet
 
-LABEL description="Wine with .NET"
-LABEL website=https://github.com/ProteoWizard/wine-dotnet
-LABEL documentation=https://github.com/ProteoWizard/wine-dotnet
-LABEL license=https://github.com/ProteoWizard/wine-dotnet
-LABEL tags="Wine,.NET"
