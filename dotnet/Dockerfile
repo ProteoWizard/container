@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-# Prevents annoying debconf errors during builds
+# Prevents annoying debconf errors during builds test
 ARG DEBIAN_FRONTEND="noninteractive"
 
 RUN dpkg --add-architecture i386 \
