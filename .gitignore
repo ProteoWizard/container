@@ -1,0 +1,5 @@
+# pwiz installer
+pwiz-bin-windows-*.tar.bz2
+
+# Editor backup files
+*~

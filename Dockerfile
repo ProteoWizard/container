@@ -54,3 +54,6 @@ CMD ["wine64_anyuser", "msconvert" ]
 
 ## If you need a proxy during build, don't put it into the Dockerfile itself:
 ## docker build --build-arg http_proxy=http://proxy.example.com:3128/  -t repo/image:version .
+
+ADD mywine /usr/bin/
+RUN chmod ugo+rx /usr/bin/mywine
