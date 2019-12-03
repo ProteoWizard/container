@@ -19,7 +19,7 @@ LABEL documentation=https://github.com/ProteoWizard/container
 LABEL license=https://github.com/ProteoWizard/container
 LABEL tags="Metabolomics,Proteomics,MassSpectrometry"
 
-ENV WINEDEBUG -all,err+all
+ENV WINEDEBUG -all
 ENV WINEPATH "C:\pwiz;C:\pwiz\skyline"
 
 # sudo needed to run wine when container is run as a non-default user (e.g. -u 1234)
