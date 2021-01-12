@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.10
 
 RUN apt-get update && \
     apt-get -y install unzip bzip2
