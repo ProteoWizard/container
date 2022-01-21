@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 RUN apt-get update && \
     apt-get -y install unzip bzip2
@@ -8,7 +8,7 @@ ADD SkylineTester.zip /
 RUN unzip SkylineTester.zip && mv /SkylineTester\ Files/* /wineprefix64/drive_c/pwiz/skyline && rm -fr /wineprefix64/drive_c/pwiz/skyline/TestZipFiles
 
 
-FROM chambm/wine-dotnet:4.7-x64
+FROM chambm/wine-dotnet:wine7-net4.8-x64
 COPY --from=0 /wineprefix64/drive_c/pwiz /wineprefix64/drive_c/pwiz
 
 ENV CONTAINER_GITHUB=https://github.com/ProteoWizard/container
