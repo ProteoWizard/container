@@ -34,8 +34,8 @@ RUN dpkg --add-architecture i386 \
       /usr/share/locale \
       /usr/share/zoneinfo
 
-ENV WINEDISTRO=stable
-ENV WINEVERSION=7.0.0.0~focal-1
+ENV WINEDISTRO=devel
+ENV WINEVERSION=7.8~focal-1
 
 # Install wine
 RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key \
