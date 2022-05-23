@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 LABEL description="Wine with .NET"
 LABEL website=https://github.com/ProteoWizard/container/dotnet
@@ -35,11 +35,11 @@ RUN dpkg --add-architecture i386 \
       /usr/share/zoneinfo
 
 ENV WINEDISTRO=devel
-ENV WINEVERSION=3.12.0~xenial
+ENV WINEVERSION=7.8~focal-1
 
 # Install wine
-RUN wget -nc https://dl.winehq.org/wine-builds/Release.key \
-    && apt-key add Release.key \
+RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key \
+    && apt-key add winehq.key \
     && apt-get update \
     && apt-get install -y apt-transport-https \
     && add-apt-repository https://dl.winehq.org/wine-builds/ubuntu/ \
@@ -68,6 +68,6 @@ WORKDIR /wineprefix64
 
 # Install Windows dependencies
 #ADD winetricks_cache /root/.cache/winetricks
-RUN winetricks -q dotnet472 && wineserver -w && winetricks -q win7 && xvfb-run winetricks -q vcrun2008 vcrun2017 corefonts && wineserver -w && rm -fr /root/.cache/winetricks
+RUN winetricks -q dotnet48 && wineserver -w && winetricks -q win7 && xvfb-run winetricks -q vcrun2008 vcrun2017 corefonts && wineserver -w && rm -fr /root/.cache/winetricks
 
 
