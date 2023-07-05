@@ -28,8 +28,8 @@ RUN apt-get update && \
     apt-get -y install sudo && \
     apt-get -y clean && \
     echo "ALL     ALL=NOPASSWD:  ALL" >> /etc/sudoers && \
-    echo '#!/bin/sh\nsudo -E -u root wine64 "$@"' > /usr/bin/wine64_anyuser && \
-    echo '#!/bin/sh\nsudo -E -u root wine "$@"' > /usr/bin/wine_anyuser && \
+    echo '#!/bin/sh\nsudo -E -H -u root wine64 "$@"' > /usr/bin/wine64_anyuser && \
+    echo '#!/bin/sh\nsudo -E -H -u root wine "$@"' > /usr/bin/wine_anyuser && \
     chmod ugo+rx /usr/bin/wine*anyuser && \
     rm -rf \
       /var/lib/apt/lists/* \
