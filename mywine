@@ -8,6 +8,8 @@ if [ ! -L "$MYWINEPREFIX"/dosdevices/z: ] ; then
   cp "$GLOBALWINEPREFIX"/*.reg "$MYWINEPREFIX"
   ln -sf "$GLOBALWINEPREFIX/drive_c" "$MYWINEPREFIX/dosdevices/c:"
   ln -sf "/" "$MYWINEPREFIX/dosdevices/z:"
+  echo disable > $MYWINEPREFIX/.update-timestamp # this line prevents auto update
+  echo disable > $GLOBALWINEPREFIX/.update-timestamp
 fi 
 
 export WINEPREFIX=$MYWINEPREFIX

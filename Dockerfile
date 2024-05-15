@@ -57,3 +57,7 @@ CMD ["wine64_anyuser", "msconvert" ]
 
 ADD mywine /usr/bin/
 RUN chmod ugo+rx /usr/bin/mywine
+
+# Fixes for running as non-root user
+RUN mkdir -p /mywineprefix && chmod 777 /mywineprefix
+RUN mkdir -p /net && chmod 777 /net
