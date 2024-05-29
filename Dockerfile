@@ -61,5 +61,4 @@ RUN chmod ugo+rx /usr/bin/mywine
 # Fixes for running the container in apptainer. 
 # Sets the TEMP and TMP environment variables for the wine user to Z:\tmp
 # Z:\tmp in wine maps to /tmp on the host operating system in apptainer 
-ADD set-apptainer-tmp /root
-RUN cat /root/set-apptainer-tmp >> /wineprefix64/user.reg
+RUN /bin/sh -c echo "\"TMP\"=\"Z:\\\\\\\\tmp\""
