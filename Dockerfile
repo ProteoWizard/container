@@ -8,7 +8,7 @@ ADD SkylineTester.zip /
 RUN unzip SkylineTester.zip && mv /SkylineTester\ Files/* /wineprefix64/drive_c/pwiz/skyline && rm -fr /wineprefix64/drive_c/pwiz/skyline/TestZipFiles
 
 
-FROM chambm/wine-dotnet:winedevel7.8-net4.8-x64
+FROM proteowizard/wine-dotnet:winestaging10.6-net4.8-x64
 COPY --from=0 /wineprefix64/drive_c/pwiz /wineprefix64/drive_c/pwiz
 
 ENV CONTAINER_GITHUB=https://github.com/ProteoWizard/container
