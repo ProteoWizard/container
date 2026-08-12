@@ -25,12 +25,12 @@ ENV WINEPATH "C:\pwiz;C:\pwiz\skyline"
 # sudo needed to run wine when container is run as a non-default user (e.g. -u 1234)
 # wine*_anyuser scripts are convenience scripts that work like wine/wine64 no matter what user calls them.
 # wine-staging >= 10 uses the unified WoW64 build, which ships only a single `wine` binary (no `wine64`),
-# so wine64_anyuser falls back to `wine` when `wine64` is not present.
+# so wine64_anyuser is now identical to wine_anyuser.
 RUN apt-get update && \
     apt-get -y install sudo && \
     apt-get -y clean && \
     echo "ALL     ALL=NOPASSWD:  ALL" >> /etc/sudoers && \
-    echo '#!/bin/sh\nif command -v wine64 >/dev/null 2>&1; then sudo -E -H -u root wine64 "$@"; else sudo -E -H -u root wine "$@"; fi' > /usr/bin/wine64_anyuser && \
+    echo '#!/bin/sh\nsudo -E -H -u root wine "$@"' > /usr/bin/wine64_anyuser && \
     echo '#!/bin/sh\nsudo -E -H -u root wine "$@"' > /usr/bin/wine_anyuser && \
     chmod ugo+rx /usr/bin/wine*anyuser && \
     rm -rf \
