@@ -1,5 +1,7 @@
-# pwiz installer
+# pwiz payload artifacts, dropped in the build context before `docker build`
 pwiz-bin-windows-*.tar.bz2
+ProteoWizard-*Setup-*.exe
+SkylineTester.zip
 
 # Editor backup files
 *~
