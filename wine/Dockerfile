@@ -95,3 +95,15 @@ RUN WINEDLLOVERRIDES="mscoree,mshtml=" wineboot -u && wineserver -k \
     && xvfb-run winetricks -q corefonts \
     && wineserver -k \
     && rm -fr /root/.cache/winetricks
+
+# wineboot does not create the per-user Windows temp directory, and nothing in a headless
+# conversion run creates it either. Windows apps assume it exists, so create it and give the
+# base image a sane prefix on its own; the app image separately redirects TMP to Z:\tmp for
+# apptainer.
+#
+# This is hygiene, NOT the fix for the Shimadzu hang, though it was added while chasing it.
+# The directory was a plausible cause and is not one: Shimadzu hung 4/4 with it present. What
+# actually hangs the reader is starting a conversion while the wine process the installer
+# leaves behind is still alive, which is why the payload stage kills it with `wineserver -k`.
+RUN mkdir -p /wineprefix64/drive_c/users/root/Temp \
+    && chmod 1777 /wineprefix64/drive_c/users/root/Temp

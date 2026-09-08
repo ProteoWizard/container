@@ -1,0 +1,6 @@
+# Everything in this repo is consumed inside a Linux container, so nothing here may be
+# checked out with CRLF. Windows clones default to core.autocrlf=true, which gave mywine
+# a CRLF shebang: the kernel then looks for an interpreter literally named "/bin/sh\r"
+# and every invocation fails with the misleading "mywine: not found". Dockerfiles are no
+# safer -- CRLF breaks line continuations there.
+* text=auto eol=lf
