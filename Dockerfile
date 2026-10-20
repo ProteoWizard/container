@@ -113,6 +113,19 @@ ENV WINEPATH="C:\pwiz;C:\pwiz\skyline"
 # net472: inert, and points at the empty directory the payload stage created.
 ENV DOTNET_ROOT="C:\Program Files\dotnet"
 
+# Apple Silicon: Rosetta translates x86-64 ELF only, so an i386 process lands on qemu-i386,
+# where wine asserts in anon_mmap_fixed and hangs. While lib/wine/i386-unix exists the `wine`
+# launcher starts the i386 loader first, even for msconvert and SkylineCmd; without it wine
+# uses the x86-64 loader, and still runs 32-bit Windows code on x86-64 hosts (new WoW64).
+# Wine 11+ (net10) only: on wine-staging 10.6 Rosetta then rejects wine with "invalid gdt
+# selector index 5", so the net472 image is left unchanged. The test fails the build if the
+# glob matched nothing.
+RUN case "$(wine --version)" in \
+        wine-[0-9].*|wine-10.*) ;; \
+        *) rm -rf /opt/wine-*/lib/wine/i386-unix && \
+           test -x /opt/wine-*/lib/wine/x86_64-unix/wine ;; \
+    esac
+
 # sudo needed to run wine when container is run as a non-default user (e.g. -u 1234)
 # wine*_anyuser scripts are convenience scripts that work like wine/wine64 no matter what user calls them.
 # wine >= 10 uses the unified WoW64 build, which ships only a single `wine` binary (no `wine64`),
